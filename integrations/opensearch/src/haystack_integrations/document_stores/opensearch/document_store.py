@@ -154,6 +154,12 @@ class OpenSearchDocumentStore:
         self._async_client: Optional[AsyncOpenSearch] = None
         self._initialized = False
 
+    def __del__(self):
+        if self._client:
+            self._client.close()
+        if self._async_client:
+            self._async_client.close()
+
     def _get_default_mappings(self) -> dict[str, Any]:
         default_mappings: dict[str, Any] = {
             "properties": {
